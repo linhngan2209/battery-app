@@ -7,7 +7,6 @@ import { ChargingStation } from 'src/manage-charging/charging-station.model';
 import { Payment } from 'src/payment/payment.model';
 
 
-
 @Injectable()
 export class ControlDeviceService {
     constructor( @InjectModel(Booking) private readonly bookingModel : Model<Booking>,
@@ -20,7 +19,7 @@ export class ControlDeviceService {
             const slot=booking.slot
             let newBooking: any = {};
             if (status === 'off') {
-                res.redirect(307, `http://172.20.10.2/on${slot}`);
+                res.redirect(307, `http://192.168.18.219/off${slot}`);
                 newBooking.status='Done'
                 newBooking.timeOut=time
                 newBooking.aboutTime=aboutTime
@@ -32,7 +31,7 @@ export class ControlDeviceService {
                 const updatedChargingStation = await this.chargingModel.findOneAndUpdate({stationName: booking.stationName},{$pull:{bookedPosition: slot}}, {new: true})
                 await this.chargingModel.findOneAndUpdate({stationName: booking?.stationName}, {$set: { filledSlots: updatedChargingStation.bookedPosition.length}})
               } else if (status === 'on') {
-                res.redirect(307, `http://172.20.10.2/off${slot}`);
+                res.redirect(307, `http://192.168.18.219/on${slot}`);
                 newBooking.status='Active'
                 newBooking.timeIn=time
               } else {

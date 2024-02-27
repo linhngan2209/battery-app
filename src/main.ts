@@ -9,7 +9,7 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-  const host = '192.168.0.102';
+  const host = '172.26.224.1';
   const port = 3000;
   await app.listen( port, host );
 }
